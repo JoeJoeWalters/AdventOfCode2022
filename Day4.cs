@@ -45,9 +45,14 @@ namespace AdventOfCode2022
         */
 
         [Fact]
-        public void Test1()
+        public void Test()
         {
+            // ARRANGE
+            string[] lines = File.ReadAllLines(@".\Day4.txt");
 
+            // ACT
+
+            // ASSERT
         }
     }
 }

@@ -92,21 +92,15 @@ namespace AdventOfCode2022
                 // Part 2
                 switch (own)
                 {
-                    case 'X': // lose
-                        {
-                            part2 += scores[loses[opponent]];
-                            break;
-                        }
-                    case 'Y': // draw
-                        {
-                            part2 += (3 + scores[draws[opponent]]);
-                            break;
-                        }
-                    case 'Z': // win
-                        {
-                            part2 += (6 + scores[wins[opponent]]);
-                            break;
-                        }
+                    case 'X':
+                        part2 += scores[loses[opponent]];
+                        break;
+                    case 'Y':
+                        part2 += (3 + scores[draws[opponent]]);
+                        break;
+                    case 'Z':
+                        part2 += (6 + scores[wins[opponent]]);
+                        break;
                 }
             }
 

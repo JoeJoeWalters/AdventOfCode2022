@@ -46,23 +46,39 @@ namespace AdventOfCode2022
         public void Test()
         {
             // ARRANGE
-            Dictionary<int, List<int>> list = new Dictionary<int, List<int>>() 
+            Dictionary<int, List<int>> list = new Dictionary<int, List<int>>();
+            /*
             { 
                 { 1, new List<int> { 1000, 2000, 3000 } },
                 { 2, new List<int> { 4000 } },
                 { 3, new List<int> { 5000, 6000 } },
                 { 4, new List<int> { 7000, 8000, 9000 } },
                 { 5, new List<int> { 10000 } }
-            };
-            int selectedElf = 0;
+            };*/
+
+            string[] content = File.ReadAllLines(@".\Day1.txt");
+            int elfNo = 1;
+            List<int> values = new List<int>();
+            foreach(string line in content)
+            {
+                if (line.Trim() == String.Empty)
+                {
+                    list.Add(elfNo, values);
+                    elfNo++;
+                    values = new List<int>();
+                }
+                else
+                {
+                    values.Add(int.Parse(line.Trim()));
+                }
+            }
 
             // ACT
-            selectedElf = list.Select(f => new KeyValuePair<int, int>(f.Key, f.Value.Sum())).OrderByDescending(f => f.Value).Take(1).First().Key;
 
 
             // ASSERT
-            selectedElf.Should().Be(4);
-
+            int maxCalories = list.Select(f => new KeyValuePair<int, int>(f.Key, f.Value.Sum())).OrderByDescending(f => f.Value).Take(1).First().Value; // Part 1
+            int top3Calories = list.Select(f => new KeyValuePair<int, int>(f.Key, f.Value.Sum())).OrderByDescending(f => f.Value).Take(3).Sum(f => f.Value); // Part 2
         }
     }
 }

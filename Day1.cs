@@ -43,8 +43,25 @@ namespace AdventOfCode2022
         */
 
         [Fact]
-        public void Test1()
+        public void Test()
         {
+            // ARRANGE
+            Dictionary<int, List<int>> list = new Dictionary<int, List<int>>() 
+            { 
+                { 1, new List<int> { 1000, 2000, 3000 } },
+                { 2, new List<int> { 4000 } },
+                { 3, new List<int> { 5000, 6000 } },
+                { 4, new List<int> { 7000, 8000, 9000 } },
+                { 5, new List<int> { 10000 } }
+            };
+            int selectedElf = 0;
+
+            // ACT
+            selectedElf = list.Select(f => new KeyValuePair<int, int>(f.Key, f.Value.Sum())).OrderByDescending(f => f.Value).Take(1).First().Key;
+
+
+            // ASSERT
+            selectedElf.Should().Be(4);
 
         }
     }

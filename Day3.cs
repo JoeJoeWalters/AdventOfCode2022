@@ -39,6 +39,27 @@ namespace AdventOfCode2022
         {
             // ARRANGE
             string[] lines = File.ReadAllLines(@".\Day3.txt");
+
+            // ACT
+            int part1 = lines
+                .Select(line => line.Chunk(line.Length / 2))
+                .Select(GetPriority)
+                .Sum();
+
+            int part2 = lines
+                .Chunk(3)
+                .Select(GetPriority)
+                .Sum();
+
+            // ASSERT
+            //part1.Should().Be(8072);
+            //part2.Should().Be(2567);
         }
+
+        private int GetPriority(IEnumerable<IEnumerable<char>> data) => (
+            from c in data.First()
+            where data.All(values => values.Contains(c))
+            select c < 'a' ? c - 'A' + 27 : c - 'a' + 1
+        ).First();
     }
 }

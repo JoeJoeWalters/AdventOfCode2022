@@ -32,9 +32,86 @@ namespace AdventOfCode2022
         */
 
         [Fact]
-        public void Test1()
+        public void Test()
         {
+            // ARRANGE
+            string[] rounds = File.ReadAllLines(@".\Day2.txt");
 
+            var wins = new Dictionary<char, char>
+            {
+                {'A', 'Y'},
+                {'B', 'Z'},
+                {'C', 'X'}
+            };
+
+            var loses = new Dictionary<char, char>
+            {
+                {'A', 'Z'},
+                {'B', 'X'},
+                {'C', 'Y'}
+            };
+
+            var scores = new Dictionary<char, int>
+            {
+                {'X', 1},
+                {'Y', 2},
+                {'Z', 3}
+            };
+
+            var draws = new Dictionary<char, char>
+            {
+                {'A', 'X'},
+                {'B', 'Y'},
+                {'C', 'Z'}
+            };
+
+            // ACT
+
+            int part1 = 0;
+            int part2 = 0;
+            foreach (string round in rounds)
+            {
+                char opponent = round[0];
+                char own = round[2];
+
+                // Part 1
+                if (wins[opponent] == own)
+                {
+                    part1 += 6 + scores[own];
+                }
+                else if (loses[opponent] == own)
+                {
+                    part1 += scores[own];
+                }
+                else
+                {
+                    // Must be a draw
+                    part1 += 3 + scores[own];
+                }
+
+                // Part 2
+                switch (own)
+                {
+                    case 'X': // lose
+                        {
+                            part2 += scores[loses[opponent]];
+                            break;
+                        }
+                    case 'Y': // draw
+                        {
+                            part2 += (3 + scores[draws[opponent]]);
+                            break;
+                        }
+                    case 'Z': // win
+                        {
+                            part2 += (6 + scores[wins[opponent]]);
+                            break;
+                        }
+                }
+            }
+
+
+            // ASSERT
         }
     }
 }

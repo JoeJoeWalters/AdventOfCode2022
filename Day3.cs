@@ -52,14 +52,14 @@ namespace AdventOfCode2022
                 .Sum();
 
             // ASSERT
-            //part1.Should().Be(8072);
-            //part2.Should().Be(2567);
+            part1.Should().Be(8072);
+            part2.Should().Be(2567);
         }
 
-        private int GetPriority(IEnumerable<IEnumerable<char>> data) => (
-            from c in data.First()
-            where data.All(values => values.Contains(c))
-            select c < 'a' ? c - 'A' + 27 : c - 'a' + 1
-        ).First();
+        private int GetPriority(IEnumerable<IEnumerable<char>> data)
+        {
+            var c = data.First().Where(x => data.All(f => f.Contains(x))).First();
+            return c < 'a' ? c - 'A' + 27 : c - 'a' + 1;
+        }
     }
 }

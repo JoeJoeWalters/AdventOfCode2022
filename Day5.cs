@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace AdventOfCode2022
 {
     public class Day5
@@ -59,11 +61,53 @@ namespace AdventOfCode2022
         public void Test()
         {
             // ARRANGE
-            string[] lines = File.ReadAllLines(@".\Day5.txt");
+            string[] crateMoves = File.ReadAllLines(@".\Day5.txt");
+            string[] setup = File.ReadAllLines(@".\Day5Setup.txt");
+
+            Stack<char>[] stacks = new Stack<char>[9];
 
             // ACT
 
+            // Setup the crates array for the starting point
+            foreach (string stack in setup.Reverse()) // Stacks push down so start from the bottom up by reversing the data
+            {
+                var elements = stack.Chunk(4); // Each line can be split into the 9 stacks
+                var i = 0;
+                foreach (var element in elements)
+                {
+                    char crate = element[1];
+                    if (stacks[i] == null)
+                        stacks[i] = new Stack<char>();
+
+                    if (crate != ' ')
+                        stacks[i].Push(crate);
+
+                    i++;
+                }
+            }
+
+            // Now process the crates
+            foreach (string move in crateMoves)
+            {
+                string[] moveParser = move.Split(' ');
+                int take = int.Parse(moveParser[1]);
+                int from = int.Parse(moveParser[3]) - 1;
+                int to = int.Parse(moveParser[5]) - 1;
+
+                // How many to take from one stack and add to the other, remember they will be now upside down
+                for (var iterations = 0; iterations < take; iterations++)
+                {
+                    stacks[to].Push(stacks[from].Pop()); // Pop from one stack and push to the other
+                }
+            }
+
+
             // ASSERT
+            string topStacks = String.Empty;
+            foreach (Stack<char> stack in stacks)
+            {
+                topStacks = $"{topStacks}{stack.Peek()}";
+            }
         }
     }
 }

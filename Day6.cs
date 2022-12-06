@@ -6,9 +6,16 @@ namespace AdventOfCode2022
         */
 
         [Fact]
-        public void Test1()
+        public void Test()
         {
+            // ARRANGE
+            string streamData = File.ReadAllText(@".\Day6.txt");
 
+            // Stream each character
+            foreach (char c in streamData)
+            {
+
+            }
         }
     }
 }

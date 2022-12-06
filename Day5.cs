@@ -89,18 +89,15 @@ namespace AdventOfCode2022
             // Now process the crates
             foreach (string move in crateMoves)
             {
+                // How many to take from one stack and add to the other, remember they will be now upside down
                 string[] moveParser = move.Split(' ');
                 int take = int.Parse(moveParser[1]);
                 int from = int.Parse(moveParser[3]) - 1;
                 int to = int.Parse(moveParser[5]) - 1;
 
-                // How many to take from one stack and add to the other, remember they will be now upside down
-                for (var iterations = 0; iterations < take; iterations++)
-                {
-                    stacks[to].Push(stacks[from].Pop()); // Pop from one stack and push to the other
-                }
+                //Part1Move(stacks, take, from, to);
+                Part2Move(stacks, take, from, to);
             }
-
 
             // ASSERT
             string topStacks = String.Empty;
@@ -108,6 +105,29 @@ namespace AdventOfCode2022
             {
                 topStacks = $"{topStacks}{stack.Peek()}";
             }
+        }
+
+        private void Part1Move(Stack<char>[] stacks, int take, int from, int to)
+        {
+            // How many to take from one stack and add to the other, remember they will be now upside down
+            Stack<char> tempStack = new Stack<char>();
+            for (var iterations = 0; iterations < take; iterations++)
+            {
+                stacks[to].Push(stacks[from].Pop()); // Pop from one stack and push to the other
+            }
+        }
+
+        private void Part2Move(Stack<char>[] stacks, int take, int from, int to)
+        {
+            Stack<char> tempStack = new Stack<char>();
+            for (var iterations = 0; iterations < take; iterations++)
+            {
+                tempStack.Push(stacks[from].Pop()); // Push to the temp stack which is now revered
+            }
+
+            // Push back to the next queue which puts back in the right order
+            while (tempStack.Count != 0)
+                stacks[to].Push(tempStack.Pop());
         }
     }
 }

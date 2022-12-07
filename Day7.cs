@@ -119,10 +119,9 @@ namespace AdventOfCode2022
                             break;
 
                         case "ls":
-                            
-                            var output = lines
-                                .Skip(i + 1)
-                                .TakeWhile(f => !f.StartsWith('$')); // Grab all lines after the directory listing that are no commands until we hit one
+
+                            // Grab all lines after the directory listing that are no commands until we hit one
+                            var output = lines.Skip(i + 1).TakeWhile(f => !f.StartsWith('$'));                             
                             
                             // Get the file sizes by splitting up the line
                             var sizes = output.Select(f => f.Split(' ').First()).Where(f => f.All(char.IsDigit)).Sum(int.Parse);
@@ -137,10 +136,7 @@ namespace AdventOfCode2022
             // Sum Up
             foreach (var path1 in paths)
             {
-                var subPaths = paths
-                             .Where(path2 => path1.Key != path2.Key)
-                             .Where(path2 => path2.Key.StartsWith(path1.Key));
-
+                var subPaths = paths.Where(path2 => path1.Key != path2.Key).Where(path2 => path2.Key.StartsWith(path1.Key));
                 foreach (var path2 in subPaths)
                 {
                     paths[path1.Key] += path2.Value;

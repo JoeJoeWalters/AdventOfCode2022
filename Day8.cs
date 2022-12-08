@@ -65,9 +65,9 @@ namespace AdventOfCode2022
             private int GetVisibilityScore(Point tree)
             {
                 var height = trees[tree];
-                int top = 0;
+                int up = 0;
                 int right = 0;
-                int bottom = 0;
+                int down = 0;
                 int left = 0;
 
                 // Check all directions
@@ -88,20 +88,20 @@ namespace AdventOfCode2022
 
                 for (int Y = tree.Y - 1; Y >= 0; Y--)
                 {
-                    top++;
+                    up++;
                     if (trees[new(tree.X, Y)] >= height) 
                         break;
                 }
 
                 for (int Y = tree.Y + 1; Y <= max.Y; Y++)
                 {
-                    bottom++;
+                    down++;
                     if (trees[new(tree.X, Y)] >= height) 
                         break;
                 }
 
                 // Give the multiplier of the findings 
-                return top * right * bottom * left;
+                return up * down * left * right;
             }
 
             // Tall enough to be visible?
@@ -111,13 +111,13 @@ namespace AdventOfCode2022
                 var tallTrees = trees.Where(t => t.Value >= trees[tree]).ToList();
 
                 // Check in all directions
+                var up = !tallTrees.Where(t => t.Key.X == tree.X && t.Key.Y < tree.Y).Any();
+                var down = !tallTrees.Where(t => t.Key.X == tree.X && t.Key.Y > tree.Y).Any();
                 var left = !tallTrees.Where(t => t.Key.X < tree.X && t.Key.Y == tree.Y).Any();
                 var right = !tallTrees.Where(t => t.Key.X > tree.X && t.Key.Y == tree.Y).Any();
-                var top = !tallTrees.Where(t => t.Key.X == tree.X && t.Key.Y < tree.Y).Any();
-                var bottom = !tallTrees.Where(t => t.Key.X == tree.X && t.Key.Y > tree.Y).Any();
 
                 // Any? Yes? Then cast to boolean if any are true
-                return top || right || bottom || left;
+                return up || down || left || right;
             }
         }
 

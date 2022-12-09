@@ -293,15 +293,15 @@ namespace AdventOfCode2022
             foreach (string line in data)
             {
                 // Get the amount of the correct position in the line then get the value by parsing the character given
-                int amount = int.Parse(line[2..]);
-                int xd = CastLineValue(line[0], false);
-                int yd = CastLineValue(line[0], true);
+                int volume = int.Parse(line[2..]);
+                int xDistance = CastLineValue(line[0], false);
+                int yDistance = CastLineValue(line[0], true);
 
                 // Loop back down the aount as long as we are over 0
-                while (amount > 0)
+                while (volume > 0)
                 {
                     // First item is the offset
-                    rope[0] = (rope[0].x + xd, rope[0].y + yd);
+                    rope[0] = (rope[0].x + xDistance, rope[0].y + yDistance);
 
                     // Loop through the rope knots
                     for (int i = 1; i < rope.Count; i++)
@@ -319,7 +319,7 @@ namespace AdventOfCode2022
                     positions.Add(rope[rope.Count() - 1]);
 
                     // Move to the previous
-                    amount--;
+                    volume--;
                 }
             }
 

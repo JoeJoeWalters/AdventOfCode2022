@@ -293,7 +293,7 @@ namespace AdventOfCode2022
             foreach (string line in data)
             {
                 // Get the amount of the correct position in the line then get the value by parsing the character given
-                int volume = int.Parse(line[2..]);
+                int volume = int.Parse(line.Split(' ')[1]);
                 int xDistance = CastLineValue(line[0], false);
                 int yDistance = CastLineValue(line[0], true);
 

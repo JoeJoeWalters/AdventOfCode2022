@@ -200,6 +200,50 @@ namespace AdventOfCode2022
         Find the signal strength during the 20th, 60th, 100th, 140th, 180th, and 220th cycles. What is the sum of these six signal strengths?
         */
 
+        private String[,] CleanScreen((int x, int y) resolution)
+        {
+            String[,] screen = new String[resolution.x, resolution.y];
+
+            for (int x = 0; x < resolution.x; x++)
+            {
+                for (var y = 0; y < resolution.y; y++)
+                {
+                    screen[x, y] = ".";
+                }
+            }
+
+            return screen;
+        }
+
+        private String[,] Plot(String[,] screen, (int x, int y) resolution, int x)
+        {
+            var yPos = resolution.x % x;
+            var xPos = x / resolution.y;
+
+            try
+            {
+                screen[yPos, yPos] = "#";
+            }
+            catch { }
+
+            return screen;
+        }
+
+        private string Render(String[,] screen, (int x, int y) resolution)
+        {
+            String output = String.Empty;
+            for (int y = 0; y < resolution.y; y++)
+            {
+                for (var x = 0; x < resolution.x; x++)
+                {
+                    output += screen[x, y];
+                }
+                output += "\n\r";
+            }
+
+            return output;
+        }
+
 
         [Fact]
         public void Test()
@@ -209,10 +253,17 @@ namespace AdventOfCode2022
             // Read all of the terminal input
             string[] data = File.ReadAllLines(@".\Day10.txt");
 
-            // ACT
             int x = 1;
             var cycle = 0;
             Dictionary<int, int> plot = new();
+
+            (int x, int y) resolution = new();
+            resolution.x = 40;
+            resolution.y = 6;
+
+            String[,] screen = CleanScreen(resolution);
+
+            // ACT
             foreach (string command in data)
             {
                 cycle++;
@@ -222,6 +273,7 @@ namespace AdventOfCode2022
                     case "noop":
 
                         plot[cycle] = x;
+                        screen = Plot(screen, resolution, x);
 
                         break;
 
@@ -229,8 +281,10 @@ namespace AdventOfCode2022
 
                         int parsed = int.Parse(commandValues[1]);
                         plot[cycle] = x;
+                        screen = Plot(screen, resolution, x);
                         cycle++;
                         plot[cycle] = x;
+                        screen = Plot(screen, resolution, x);
                         x += parsed;
 
                         break;
@@ -248,6 +302,8 @@ namespace AdventOfCode2022
                         sums[140] +
                         sums[180] +
                         sums[220];
+
+            var part2 = Render(screen, resolution);
 
         }
     }

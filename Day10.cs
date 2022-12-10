@@ -215,33 +215,36 @@ namespace AdventOfCode2022
             return screen;
         }
 
-        private String[,] Plot(String[,] screen, (int x, int y) resolution, int x)
+        private string RenderCRT(Dictionary<int, int> plot)
         {
-            var yPos = resolution.x % x;
-            var xPos = x / resolution.y;
 
-            try
+            char[,] crt = new char[6, 40];
+            for (int i = 0; i < 6; i++)
             {
-                screen[yPos, yPos] = "#";
-            }
-            catch { }
-
-            return screen;
-        }
-
-        private string Render(String[,] screen, (int x, int y) resolution)
-        {
-            String output = String.Empty;
-            for (int y = 0; y < resolution.y; y++)
-            {
-                for (var x = 0; x < resolution.x; x++)
+                for (int j = 0; j < 40; j++)
                 {
-                    output += screen[x, y];
+                    if (j == plot[j + 1 + (i * 40)] || j == plot[j + 1 + (i * 40)] - 1 || j == plot[j + 1 + (i * 40)] + 1)
+                    {
+                        crt[i, j] = '#';
+                    }
+                    else
+                    {
+                        crt[i, j] = '.';
+                    }
                 }
-                output += "\n\r";
             }
 
-            return output;
+            string crtOutput = String.Empty;
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 40; j++)
+                {
+                    crtOutput += crt[i, j];
+                }
+                crtOutput += "\n";
+            }
+
+            return crtOutput;
         }
 
 
@@ -273,7 +276,6 @@ namespace AdventOfCode2022
                     case "noop":
 
                         plot[cycle] = x;
-                        screen = Plot(screen, resolution, x);
 
                         break;
 
@@ -281,10 +283,8 @@ namespace AdventOfCode2022
 
                         int parsed = int.Parse(commandValues[1]);
                         plot[cycle] = x;
-                        screen = Plot(screen, resolution, x);
                         cycle++;
                         plot[cycle] = x;
-                        screen = Plot(screen, resolution, x);
                         x += parsed;
 
                         break;
@@ -303,7 +303,8 @@ namespace AdventOfCode2022
                         sums[180] +
                         sums[220];
 
-            var part2 = Render(screen, resolution);
+
+            var part2 = RenderCRT(plot);
 
         }
     }

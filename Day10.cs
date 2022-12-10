@@ -200,30 +200,15 @@ namespace AdventOfCode2022
         Find the signal strength during the 20th, 60th, 100th, 140th, 180th, and 220th cycles. What is the sum of these six signal strengths?
         */
 
-        private String[,] CleanScreen((int x, int y) resolution)
-        {
-            String[,] screen = new String[resolution.x, resolution.y];
-
-            for (int x = 0; x < resolution.x; x++)
-            {
-                for (var y = 0; y < resolution.y; y++)
-                {
-                    screen[x, y] = ".";
-                }
-            }
-
-            return screen;
-        }
-
-        private string RenderCRT(Dictionary<int, int> plot)
+        private string RenderCRT(Dictionary<int, int> plot, (int x, int y) resolution)
         {
 
-            char[,] crt = new char[6, 40];
-            for (int i = 0; i < 6; i++)
+            char[,] crt = new char[resolution.y, resolution.x];
+            for (int i = 0; i < resolution.y; i++)
             {
-                for (int j = 0; j < 40; j++)
+                for (int j = 0; j < resolution.x; j++)
                 {
-                    if (j == plot[j + 1 + (i * 40)] || j == plot[j + 1 + (i * 40)] - 1 || j == plot[j + 1 + (i * 40)] + 1)
+                    if (j == plot[j + 1 + (i * resolution.x)] || j == plot[j + 1 + (i * resolution.x)] - 1 || j == plot[j + 1 + (i * resolution.x)] + 1)
                     {
                         crt[i, j] = '#';
                     }
@@ -264,8 +249,6 @@ namespace AdventOfCode2022
             resolution.x = 40;
             resolution.y = 6;
 
-            String[,] screen = CleanScreen(resolution);
-
             // ACT
             foreach (string command in data)
             {
@@ -304,7 +287,7 @@ namespace AdventOfCode2022
                         sums[220];
 
 
-            var part2 = RenderCRT(plot);
+            var part2 = RenderCRT(plot, resolution);
 
         }
     }

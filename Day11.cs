@@ -292,9 +292,10 @@ namespace AdventOfCode2022
             }
 
             Dictionary<int, int> inspections = new Dictionary<int, int>();
+            var maxRounds = 10000; // Part 1 = 20
 
             // Loop the rounds
-            for (int round = 0; round < 20; round++)
+            for (int round = 0; round < maxRounds; round++)
             {
                 // Loop the monkeys
                 for (var monkeyId = 0; monkeyId <= monkeys; monkeyId ++)
@@ -331,14 +332,16 @@ namespace AdventOfCode2022
 
                                 break;
                         }
-                        worryLevel /= 3;
+
+                        // Only for Part 1, Comment out for part 2
+                        //worryLevel /= 3;
 
                         // Is it divisible?
                         var division = (worryLevel / monkey.Divisible);
                         var passTo = ((worryLevel % monkey.Divisible) == 0) ? monkey.TrueMonkey : monkey.FalseMonkey;
                         map[passTo].Items.Add(worryLevel);
-                        monkey.Items.RemoveAt(itemId);
                     }
+                    monkey.Items.Clear();
                 }
             }
 

@@ -244,6 +244,7 @@ namespace AdventOfCode2022
             Dictionary<int, Monkey> map = new Dictionary<int, Monkey>();
 
             // ACT
+            var monkeys = 0;
             for (var i = 0; i < data.Length; i++)
             {
                 String line = data[i];
@@ -257,32 +258,89 @@ namespace AdventOfCode2022
 
                     };
 
-                    foreach (var item in data[i + 1].Replace("Starting Items:", String.Empty, StringComparison.OrdinalIgnoreCase).Split(','))
+                    foreach (var item in data[i + 1].Replace("Starting Items:", String.Empty, StringComparison.OrdinalIgnoreCase).Trim().Split(','))
                     {
                         monkey.Items.Add(int.Parse(item));
                     }
 
-                    var operationComponents = data[i + 2].Split(' ');
-                    if (operationComponents[7] == "old")
+                    var operationComponents = data[i + 2].Trim().Split(' ');
+                    if (operationComponents[5] == "old")
                     {
                         monkey.Operation = "pow";
                     }
                     else
                     {
-                        monkey.Operation = operationComponents[6];
-                        monkey.OperationComponent = int.Parse(operationComponents[7]);
+                        monkey.Operation = operationComponents[4];
+                        monkey.OperationComponent = int.Parse(operationComponents[5]);
                     }
 
-                    string testLine = data[i + 3];
-                    string trueLine = data[i + 4];
-                    string falseLine = data[i + 5];
-                    
+                    var testComponents = data[i + 3].Trim().Split(' ');
+                    monkey.Divisible = int.Parse(testComponents[3]);
+
+                    var trueComponents = data[i + 4].Trim().Split(' ');
+                    monkey.TrueMonkey = int.Parse(trueComponents[5]);
+
+                    var falseComponents = data[i + 5].Trim().Split(' ');
+                    monkey.FalseMonkey = int.Parse(falseComponents[5]);
+
                     int monkeyId = int.Parse(components[1].Replace(':', ' ').Trim());
                     map.Add(monkeyId, monkey);
+
+                    if (monkeys < monkeyId)
+                        monkeys = monkeyId;
                 }
             }
 
             Dictionary<int, int> inspections = new Dictionary<int, int>();
+
+            // Loop the rounds
+            for (int round = 0; round < 20; round++)
+            {
+                // Loop the monkeys
+                for (var monkeyId = 0; monkeyId <= monkeys; monkeyId ++)
+                {
+                    var monkey = map[monkeyId];
+                 
+                    // Add how many inspections the monkey will have to achieve
+                    if (inspections.ContainsKey(monkeyId))
+                        inspections[monkeyId] += monkey.Items.Count;
+                    else
+                        inspections[monkeyId] = monkey.Items.Count;
+
+                    // Now look at the items backwards (removals will cause issues when they are thrown to the index)
+                    for (var itemId = monkey.Items.Count-1; itemId >= 0; itemId--)
+                    {
+                        int worryLevel = monkey.Items[itemId];
+                        switch (monkey.Operation)
+                        {
+                            case "+":
+
+                                worryLevel += monkey.OperationComponent; 
+
+                                break;
+
+                            case "*":
+
+                                worryLevel *= monkey.OperationComponent;
+
+                                break;
+
+                            case "pow":
+
+                                worryLevel *= worryLevel;
+
+                                break;
+                        }
+                        worryLevel /= 3;
+
+                        // Is it divisible?
+                        var division = (worryLevel / monkey.Divisible);
+                        var passTo = ((worryLevel % monkey.Divisible) == 0) ? monkey.TrueMonkey : monkey.FalseMonkey;
+                        map[passTo].Items.Add(worryLevel);
+                        monkey.Items.RemoveAt(itemId);
+                    }
+                }
+            }
 
             // ASSERT
 

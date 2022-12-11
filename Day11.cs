@@ -343,7 +343,9 @@ namespace AdventOfCode2022
             }
 
             // ASSERT
-
+            var top2 = inspections.AsQueryable().OrderByDescending(x => x.Value).Take(2).Select(x => x.Value).ToList();
+            var result = top2[0] * top2[1];
+            
         }
     }
 

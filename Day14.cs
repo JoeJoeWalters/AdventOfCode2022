@@ -143,18 +143,21 @@ namespace AdventOfCode2022
             public int Count(bool hasFloor)
             {
                 var count = 0;
+
                 while (Add(startPoint, hasFloor))
                     count++;
+
                 return hasFloor ? count + 1 : count;
             }
 
             private bool Add(Point point, bool hasFloor)
             {
-                var nextPoints = new[] {
+                var nextPoints = new[] 
+                        {
                         new Point(point.X, point.Y + 1),
                         new Point(point.X - 1, point.Y + 1),
                         new Point(point.X + 1, point.Y + 1)
-                      };
+                        };
 
                 foreach (var next in nextPoints)
                 {
@@ -169,6 +172,7 @@ namespace AdventOfCode2022
                     return false;
 
                 points.Add(point);
+
                 return true;
             }
 
@@ -180,9 +184,7 @@ namespace AdventOfCode2022
                     {
                         var point = new Point(x, y);
                         char cell = points.Contains(point) ? '#' : '.';
-                        Console.Write(cell);
                     }
-                    Console.WriteLine();
                 }
             }
         }
@@ -190,8 +192,7 @@ namespace AdventOfCode2022
         internal Point Parse(string pointString)
         {
             string[] xy = pointString.Split(',');
-            var point = new Point(Int32.Parse(xy[0]), Int32.Parse(xy[1]));
-            return point;
+            return new Point(Int32.Parse(xy[0]), Int32.Parse(xy[1]));
         }
 
         internal Grid CreateGrid(string[] lines)

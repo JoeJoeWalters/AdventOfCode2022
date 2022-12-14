@@ -175,18 +175,6 @@ namespace AdventOfCode2022
 
                 return true;
             }
-
-            public void Print()
-            {
-                for (int y = 0; y <= maxY; y++)
-                {
-                    for (int x = minX; x <= maxX; x++)
-                    {
-                        var point = new Point(x, y);
-                        char cell = points.Contains(point) ? '#' : '.';
-                    }
-                }
-            }
         }
 
         internal Point Parse(string pointString)

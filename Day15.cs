@@ -116,7 +116,6 @@ namespace AdventOfCode2022
             public int Range { get => Math.Abs(X - BeaconX) + Math.Abs(Y - BeaconY); }
 
             public Boolean CanReach(int x, int y) => (Math.Abs(X - x) + Math.Abs(Y - y) <= Range);
-            public Boolean CanReach(Sensor other) => (Math.Abs(X - other.X) + Math.Abs(Y - other.Y) <= Range + other.Range + 1);
             public Boolean Overlap(int y) => (Math.Abs(Y - y) <= Range);
         }
 

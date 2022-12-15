@@ -106,6 +106,20 @@ namespace AdventOfCode2022
         private const int maxCoord = 4000000;
         private Int64 Frequency(Int64 x, Int64 y) => (Int64)maxCoord * x + y;
 
+        private class Sensor
+        {
+            public int X { get; set; }
+            public int Y { get; set; }
+            public int BeaconX { get; set; }
+            public int BeaconY { get; set; }
+
+            public int Range { get => Math.Abs(X - BeaconX) + Math.Abs(Y - BeaconY); }
+
+            public Boolean CanReach(int x, int y) => (Math.Abs(X - x) + Math.Abs(Y - y) <= Range);
+            public Boolean CanReach(Sensor other) => (Math.Abs(X - other.X) + Math.Abs(Y - other.Y) <= Range + other.Range + 1);
+            public Boolean Overlap(int y) => (Math.Abs(Y - y) <= Range);
+        }
+
         private Sensor[] CreateSensors(string[] input)
         {
             List<Sensor> sensors = new List<Sensor>();
@@ -218,20 +232,6 @@ namespace AdventOfCode2022
             }
 
             return 0;
-        }
-        
-        private class Sensor
-        {
-            public int X { get; set; }
-            public int Y { get; set; }
-            public int BeaconX { get; set; }
-            public int BeaconY { get; set; }
-
-            public int Range { get => Math.Abs(X - BeaconX) + Math.Abs(Y - BeaconY); }
-
-            public Boolean CanReach(int x, int y) => (Math.Abs(X - x) + Math.Abs(Y - y) <= Range);
-            public Boolean CanReach(Sensor other) => (Math.Abs(X - other.X) + Math.Abs(Y - other.Y) <= Range + other.Range + 1);
-            public Boolean Overlap(int y) => (Math.Abs(Y - y) <= Range);
         }
 
         [Fact]

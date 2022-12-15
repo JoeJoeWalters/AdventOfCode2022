@@ -13,7 +13,7 @@ namespace AdventOfCode2022
 
         Once a sensor finds a spot it thinks will give it a good reading, it attaches itself to a hard surface and begins monitoring for the nearest signal source beacon. Sensors and beacons always exist at integer coordinates. Each sensor knows its own position and can determine the position of a beacon precisely; however, sensors can only lock on to the one beacon closest to the sensor as measured by the Manhattan distance. (There is never a tie where two beacons are the same distance to a sensor.)
 
-        It doesn't take long for the sensors to report back their positions and closest beacons (your puzzle input). For example:
+        It doesn't take Int64 for the sensors to report back their positions and closest beacons (your puzzle input). For example:
 
         Sensor at x=2, y=18: closest beacon is at x=-2, y=15
         Sensor at x=9, y=16: closest beacon is at x=10, y=16
@@ -89,7 +89,7 @@ namespace AdventOfCode2022
         22 .......................B....
         This sensor's closest beacon is at 2,10, and so you know there are no beacons that close or closer (in any positions marked #).
 
-        None of the detected beacons seem to be producing the distress signal, so you'll need to work out where the distress beacon is by working out where it isn't. For now, keep things simple by counting the positions where a beacon cannot possibly be along just a single row.
+        None of the detected beacons seem to be producing the distress signal, so you'll need to work out where the distress beacon is by working out where it isn't. For now, keep things simple by counting the positions where a beacon cannot possibly be aInt64 just a single row.
 
         So, suppose you have an arrangement of beacons and sensors like in the example above and, just in the row where y=10, you'd like to count the number of positions a beacon cannot possibly exist. The coverage from all sensors near that row looks like this:
 
@@ -104,7 +104,7 @@ namespace AdventOfCode2022
         */
 
         private const int maxCoord = 4000000;
-        private long Frequency(long x, long y) => (Int64)maxCoord * x + y;
+        private Int64 Frequency(Int64 x, Int64 y) => (Int64)maxCoord * x + y;
 
         private Sensor[] CreateSensors(string[] input)
         {
@@ -130,7 +130,7 @@ namespace AdventOfCode2022
             return sensors.ToArray();
         }
 
-        private long Part1(Sensor[] sensors, int yPos)
+        private Int64 Part1(Sensor[] sensors, int yPos)
         {
             var positionsTo = new HashSet<int>();
 
@@ -152,7 +152,7 @@ namespace AdventOfCode2022
             return positionsTo.Count;
         }
 
-        private long Part2(Sensor[] sensors, int maxY)
+        private Int64 Part2(Sensor[] sensors, int maxY)
         {
             // Filthy but context is king
             Boolean NotInRange(Sensor[] sensors, int x, int y)

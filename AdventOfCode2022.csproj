@@ -14,6 +14,7 @@
     <None Remove="Day13.txt" />
     <None Remove="Day14.txt" />
     <None Remove="Day15.txt" />
+    <None Remove="Day16.txt" />
     <None Remove="Day2.txt" />
     <None Remove="Day3.txt" />
     <None Remove="Day4.txt" />
@@ -30,6 +31,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Day11.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day16.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Day15.txt">
@@ -74,6 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dijkstra.NET" Version="1.2.1" />
     <PackageReference Include="FluentAssertions" Version="6.8.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="xunit" Version="2.4.1" />

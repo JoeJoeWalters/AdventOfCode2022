@@ -407,7 +407,7 @@ namespace AdventOfCode2022
 
                 // Set the current block in the cycle
                 int blockId = 0;
-                current = blocks[block];
+                current = blocks[blockId];
 
                 while (part1 == 0 || part2 == 0)
                 {
@@ -430,14 +430,14 @@ namespace AdventOfCode2022
                     blockXCalc += ((data[index] == '<') ? -1 : 1);
 
                     // Collision or out of bound on blockX?
-                    if (0 <= blockXCalc && blockXCalc + current[0].Length <= 7 && CheckCollision(blockXCalc, blockPos.Y, current))
+                    if (0 <= blockXCalc && blockXCalc + current[0].Length <= 7 && Hit(blockXCalc, blockPos.Y, current))
                         blockPos.X = blockXCalc; // reset blockX to be re-assigned the calculated value
 
                     // Same on the Y axis but more complex if hitting down on an "object"
                     int blockYCalc = blockPos.Y - 1;
                     index = (index + 1) % data.Length;
 
-                    if (0 <= blockYCalc && CheckCollision(blockPos.X, blockYCalc, current))
+                    if (0 <= blockYCalc && Hit(blockPos.X, blockYCalc, current))
                     {
                         blockPos.Y = blockYCalc;
                     }
@@ -480,7 +480,7 @@ namespace AdventOfCode2022
             }
 
             // Did the block collide with a fixed object?
-            private bool CheckCollision(int blockX, int blockY, string[] current)
+            private bool Hit(int blockX, int blockY, string[] current)
             {
                 // Check the items in the cuurent block by cycling through it's dimensions
                 for (int y = blockY; y < blockY + current.Length; y++)

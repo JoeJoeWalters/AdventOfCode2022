@@ -329,26 +329,30 @@ namespace AdventOfCode2022
             // What can the next shortest move be? Divest to the graph routine
             private TimeScoreMarker CalculateNextMove(uint from, uint to, TimeScoreMarker previous)
             {
-                if (!pathLengths.TryGetValue((from, to), out var dist))
+                // Does the distance already have a calculation? If not then use the graph routine to build it and then store the value for next 
+                // time for quick lookup
+                if (!pathLengths.TryGetValue((from, to), out var distance))
                 {
-                    dist = graph.Dijkstra(from, to).Distance;
-                    pathLengths.Add((from, to), dist);
+                    distance = graph.Dijkstra(from, to).Distance;
+                    pathLengths.Add((from, to), distance);
                 }
 
-                var timeAtEnd = previous.Time - dist - 1;
+                // Wind forward time based on the time and the distance to the next one
+                var timeAtEnd = previous.Time - distance - 1;
                 return new TimeScoreMarker()
                 {
-                    Time = timeAtEnd,
-                    Score = previous.Score + (timeAtEnd * valves[to].Flow)
+                    Time = timeAtEnd, // What will the time be at the next point?
+                    Score = previous.Score + (timeAtEnd * valves[to].Flow) // Work out the score based on the relative time and flow rate
                 };
             }
 
-            // Search for valves to switch
+            // Search through the valves that can be checked (recursive in that we will remove the last one checked as we move down through them)
             private void Search(uint from, uint[] flows, TimeScoreMarker previous, bool isElephantMove)
             {
-                for (var i = 0; i < flows.Length; i++)
+                // Check all the flows (might be shorter than last time as some will gradually be removed as they are checked
+                for (var flowId = 0; flowId < flows.Length; flowId++)
                 {
-                    var to = flows[i];
+                    var to = flows[flowId];
                     var nextMove = CalculateNextMove(from, to, previous);
                     if (nextMove.Time >= 0)
                     {

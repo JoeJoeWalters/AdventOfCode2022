@@ -335,11 +335,11 @@ namespace AdventOfCode2022
                     pathLengths.Add((from, to), dist);
                 }
 
-                var tEnd = previous.Time - dist - 1;
+                var timeAtEnd = previous.Time - dist - 1;
                 return new TimeScoreMarker()
                 {
-                    Time = tEnd,
-                    Score = previous.Score + (tEnd * valves[to].Flow)
+                    Time = timeAtEnd,
+                    Score = previous.Score + (timeAtEnd * valves[to].Flow)
                 };
             }
 
